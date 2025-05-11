@@ -1,52 +1,58 @@
 // src/screens/AddDreamScreen.js
 
-import React, { useState } from 'react';
-import { 
-  SafeAreaView,    // ensures content isn't hidden by notches/status bars
-  TextInput,       // for user input fields
-  Button,          // submit button
-  StyleSheet,      // styling utility
-  Alert,           // for popup messages
-  View             // generic container
-} from 'react-native';
-import api from '../api';  // our API helper for HTTP requests
+import React, { useState } from "react";
+import {
+  SafeAreaView, // ensures content isn't hidden by notches/status bars
+  TextInput, // for user input fields
+  Button, // submit button
+  StyleSheet, // styling utility
+  Alert, // for popup messages
+  View, // generic container
+} from "react-native";
+import api from "../api"; // our API helper for HTTP requests
 
 export default function AddDreamScreen({ navigation }) {
   // form state hooks for each input field
-  const [title,    setTitle]    = useState('');
-  const [climax,   setClimax]   = useState('');
-  const [location, setLocation] = useState('');
-  const [time,     setTime]     = useState('');
-  const [emotion,  setEmotion]  = useState('');
-  const [people,   setPeople]   = useState(''); // comma‑separated list
-  const [objects,  setObjects]  = useState(''); // comma‑separated list
-  const [notes,    setNotes]    = useState('');
+  const [title, setTitle] = useState("");
+  const [climax, setClimax] = useState("");
+  const [location, setLocation] = useState("");
+  const [time, setTime] = useState("");
+  const [emotion, setEmotion] = useState("");
+  const [people, setPeople] = useState(""); // comma‑separated list
+  const [objects, setObjects] = useState(""); // comma‑separated list
+  const [notes, setNotes] = useState("");
 
   // Called when the user taps "Save Dream"
   const handleSave = async () => {
     // basic validation: title is required
     if (!title.trim()) {
-      return Alert.alert('Validation Error', 'Title is required');
+      return Alert.alert("Validation Error", "Title is required");
     }
     try {
       // send POST request with all form data
-      await api.post('/dreams', {
+      await api.post("/dreams", {
         title,
         climax,
         location,
         time,
         emotion,
-        people:  people.split(',').map(s => s.trim()).filter(Boolean),
-        objects: objects.split(',').map(s => s.trim()).filter(Boolean),
+        people: people
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
+        objects: objects
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
         notes,
       });
       // show success message
-      Alert.alert('Success', 'Dream saved!');
+      Alert.alert("Success", "Dream saved!");
       // navigate back to the list of dreams
-      navigation.navigate('Dreams');
+      navigation.navigate("Dreams");
     } catch (err) {
       // display any API errors
-      Alert.alert('Error', err.message);
+      Alert.alert("Error", err.message);
     }
   };
 
@@ -119,18 +125,19 @@ export default function AddDreamScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,               // fill the entire screen
-    padding: 16,           // inner spacing
-    backgroundColor: '#fff',
+    flex: 1, // fill the entire screen
+    padding: 16, // inner spacing
+    backgroundColor: "#045E95",
   },
   input: {
-    borderWidth: 1,        // visible border
-    borderColor: '#ccc',   // light gray color
-    padding: 12,           // input padding
-    marginBottom: 12,      // spacing between fields
-    borderRadius: 6,       // rounded corners
+    borderWidth: 1, // visible border
+    borderColor: "#ccc", // light gray color
+    padding: 12, // input padding
+    marginBottom: 12, // spacing between fields
+    borderRadius: 6, // rounded corners
+    color: "#fff",
   },
   buttonWrapper: {
-    marginTop: 8,          // space above the button
+    marginTop: 8, // space above the button
   },
 });

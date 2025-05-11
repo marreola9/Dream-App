@@ -1,49 +1,49 @@
 // src/screens/AddStoryScreen.js
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
-  SafeAreaView,   // handles device notches/status bars
-  ScrollView,     // enables scrolling when form is long
-  Text,           // for labels
-  TextInput,      // for user inputs
-  Button,         // for the submit action
-  StyleSheet,     // styling helper
-  Alert,          // to show popup messages
-  View,           // generic container
-} from 'react-native';
-import { addStory } from '../api';  // API helper for POST /stories
+  SafeAreaView, // handles device notches/status bars
+  ScrollView, // enables scrolling when form is long
+  Text, // for labels
+  TextInput, // for user inputs
+  Button, // for the submit action
+  StyleSheet, // styling helper
+  Alert, // to show popup messages
+  View, // generic container
+} from "react-native";
+import { addStory } from "../api"; // API helper for POST /stories
 
 export default function AddStoryScreen({ navigation, route }) {
-  const dream = route.params?.dream;    // dream object passed from DreamsScreen
-  const dreamId = dream?._id;           // optional reference to the original dream
+  const dream = route.params?.dream; // dream object passed from DreamsScreen
+  const dreamId = dream?._id; // optional reference to the original dream
 
   // form state for each field
-  const [title,    setTitle]    = useState('');
-  const [content,  setContent]  = useState('');
-  const [location, setLocation] = useState('');
-  const [time,     setTime]     = useState('');
-  const [emotion,  setEmotion]  = useState('');
-  const [people,   setPeople]   = useState('');
-  const [objects,  setObjects]  = useState('');
-  const [notes,    setNotes]    = useState('');
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [location, setLocation] = useState("");
+  const [time, setTime] = useState("");
+  const [emotion, setEmotion] = useState("");
+  const [people, setPeople] = useState("");
+  const [objects, setObjects] = useState("");
+  const [notes, setNotes] = useState("");
 
   // if a dream was provided, you could prefill fields here
   useEffect(() => {
     if (dream) {
       setTitle(`${dream.title} Story`);
-      setLocation(dream.location || '');
-      setTime(dream.time || '');
-      setEmotion(dream.emotion || '');
-      setPeople((dream.people || []).join(', '));
-      setObjects((dream.objects || []).join(', '));
-      setNotes(dream.notes || '');
+      setLocation(dream.location || "");
+      setTime(dream.time || "");
+      setEmotion(dream.emotion || "");
+      setPeople((dream.people || []).join(", "));
+      setObjects((dream.objects || []).join(", "));
+      setNotes(dream.notes || "");
     }
   }, [dream]);
 
   // handle form submission
   const handleSave = async () => {
     if (!title.trim() || !content.trim()) {
-      return Alert.alert('Validation', 'Title and Story are required');
+      return Alert.alert("Validation", "Title and Story are required");
     }
     try {
       await addStory({
@@ -52,15 +52,21 @@ export default function AddStoryScreen({ navigation, route }) {
         location,
         time,
         emotion,
-        people:  people.split(',').map(s => s.trim()).filter(Boolean),
-        objects: objects.split(',').map(s => s.trim()).filter(Boolean),
+        people: people
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
+        objects: objects
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
         notes,
         dreamId,
       });
-      Alert.alert('Success', 'Story saved!');  // feedback to user
-      navigation.navigate('Stories');          // go back to Stories list
+      Alert.alert("Success", "Story saved!"); // feedback to user
+      navigation.navigate("Stories"); // go back to Stories list
     } catch (err) {
-      Alert.alert('Error', err.message);       // show any API errors
+      Alert.alert("Error", err.message); // show any API errors
     }
   };
 
@@ -142,15 +148,20 @@ export default function AddStoryScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  flex:      { flex: 1, backgroundColor: '#fff' },
+  flex: { flex: 1, backgroundColor: "#045E95" }, // full screen
   container: { padding: 16 },
-  label:     { marginBottom: 4, fontWeight: 'bold' },  // field label style
+  label: {
+    marginBottom: 4,
+    fontWeight: "bold",
+    color: "white",
+  }, // field label style
   input: {
-    borderWidth: 1,       // visible border
-    borderColor: '#ccc',  // light gray
-    padding: 12,          // inner spacing
-    marginBottom: 12,     // space between inputs
-    borderRadius: 6,      // rounded corners
+    borderWidth: 1, // visible border
+    borderColor: "#ccc", // light gray
+    padding: 12, // inner spacing
+    marginBottom: 12, // space between inputs
+    borderRadius: 6, // rounded corners
+    color: "#fff",
   },
-  button: { marginTop: 8 },  // space above the save button
+  button: { marginTop: 8 }, // space above the save button
 });

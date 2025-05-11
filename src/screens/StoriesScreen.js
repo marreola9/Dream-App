@@ -1,20 +1,20 @@
 // src/screens/StoriesScreen.js
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from "react";
 import {
-  SafeAreaView,    // handles device notches/status bars
-  View,            // generic container
-  Text,            // for displaying text
-  FlatList,        // performant scrolling list
-  StyleSheet,      // styling helper
-  RefreshControl,  // pull‑to‑refresh functionality
-} from 'react-native';
-import { getStories } from '../api';  // API helper for GET /stories
+  SafeAreaView, // handles device notches/status bars
+  View, // generic container
+  Text, // for displaying text
+  FlatList, // performant scrolling list
+  StyleSheet, // styling helper
+  RefreshControl, // pull‑to‑refresh functionality
+} from "react-native";
+import { getStories } from "../api"; // API helper for GET /stories
 
 export default function StoriesScreen() {
-  const [stories, setStories]       = useState([]);   // list of story objects
-  const [error,   setError]         = useState(null); // error message if fetch fails
-  const [refreshing, setRefreshing] = useState(false);// pull‑to‑refresh state
+  const [stories, setStories] = useState([]); // list of story objects
+  const [error, setError] = useState(null); // error message if fetch fails
+  const [refreshing, setRefreshing] = useState(false); // pull‑to‑refresh state
 
   // fetch stories from backend
   const fetchStories = async () => {
@@ -78,10 +78,10 @@ const styles = StyleSheet.create({
   card: {
     padding: 12,
     marginBottom: 8,
-    backgroundColor: '#e9f1ff', // light blue background
+    backgroundColor: "#e9f1ff", // light blue background
     borderRadius: 8,
   },
-  title:     { fontWeight: 'bold', marginBottom: 4, fontSize: 16 },
-  empty:     { marginTop: 40, textAlign: 'center', color: '#999' },
-  error:     { color: 'red', padding: 16 },
+  title: { fontWeight: "bold", marginBottom: 4, fontSize: 16 },
+  empty: { marginTop: 40, textAlign: "center", color: "#999" },
+  error: { color: "red", padding: 16 },
 });
