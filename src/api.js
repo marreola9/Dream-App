@@ -4,7 +4,7 @@ import { Platform } from "react-native";
 
 const BASE_URL =
   Platform.OS === "android" || Platform.OS === "ios"
-    ? "<Your-IP-Here>:3000/api"
+    ? "http://<Your-LAN-IP- Here>:3000/api"
     : "http://localhost:3000/api";
 
 const api = axios.create({ baseURL: BASE_URL });

@@ -1,17 +1,17 @@
-// src/screens/AddStoryScreen.js
-
 import React, { useState, useEffect } from "react";
 import {
-  SafeAreaView, // handles device notches/status bars
-  ScrollView, // enables scrolling when form is long
-  Text, // for labels
-  TextInput, // for user inputs
-  Button, // for the submit action
-  StyleSheet, // styling helper
-  Alert, // to show popup messages
-  View, // generic container
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TextInput,
+  Button,
+  Alert,
+  View,
+  ImageBackground,
 } from "react-native";
 import { addStory } from "../api"; // API helper for POST /stories
+import { addStoryStyles as styles } from "./ScreenStyles"; // Import styles for AddStoryScreen
+import bgpic from "../../assets/bgpic.png"; // Import the background image
 
 export default function AddStoryScreen({ navigation, route }) {
   const dream = route.params?.dream; // dream object passed from DreamsScreen
@@ -71,97 +71,91 @@ export default function AddStoryScreen({ navigation, route }) {
   };
 
   return (
-    <SafeAreaView style={styles.flex}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.label}>Title:</Text>
-        <TextInput
-          value={title}
-          onChangeText={setTitle}
-          style={styles.input}
-          placeholder="Enter story title"
-        />
+    <ImageBackground source={bgpic} style={styles.backgroundImage}>
+      <SafeAreaView style={styles.containerOverlay}>
+        <ScrollView contentContainerStyle={styles.container}>
+          {/* Header */}
+          <Text style={styles.header}>Add A New Story</Text>
 
-        <Text style={styles.label}>Story:</Text>
-        <TextInput
-          value={content}
-          onChangeText={setContent}
-          style={[styles.input, { height: 120 }]}
-          placeholder="Write your story..."
-          multiline
-        />
+          <Text style={styles.label}>Title:</Text>
+          <TextInput
+            value={title}
+            onChangeText={setTitle}
+            style={styles.input}
+            placeholder="Enter story title"
+            placeholderTextColor="#ccc"
+          />
 
-        <Text style={styles.label}>Location:</Text>
-        <TextInput
-          value={location}
-          onChangeText={setLocation}
-          style={styles.input}
-          placeholder="Enter location"
-        />
+          <Text style={styles.label}>Story:</Text>
+          <TextInput
+            value={content}
+            onChangeText={setContent}
+            style={[styles.input, { height: 120 }]}
+            placeholder="Write your story..."
+            multiline
+            placeholderTextColor="#ccc"
+          />
 
-        <Text style={styles.label}>Time:</Text>
-        <TextInput
-          value={time}
-          onChangeText={setTime}
-          style={styles.input}
-          placeholder="Enter time"
-        />
+          <Text style={styles.label}>Location:</Text>
+          <TextInput
+            value={location}
+            onChangeText={setLocation}
+            style={styles.input}
+            placeholder="Enter location"
+            placeholderTextColor="#ccc"
+          />
 
-        <Text style={styles.label}>Emotion:</Text>
-        <TextInput
-          value={emotion}
-          onChangeText={setEmotion}
-          style={styles.input}
-          placeholder="Enter emotion"
-        />
+          <Text style={styles.label}>Time:</Text>
+          <TextInput
+            value={time}
+            onChangeText={setTime}
+            style={styles.input}
+            placeholder="Enter time"
+            placeholderTextColor="#ccc"
+          />
 
-        <Text style={styles.label}>People (comma‑separated):</Text>
-        <TextInput
-          value={people}
-          onChangeText={setPeople}
-          style={styles.input}
-          placeholder="e.g. Alice, Bob"
-        />
+          <Text style={styles.label}>Emotion:</Text>
+          <TextInput
+            value={emotion}
+            onChangeText={setEmotion}
+            style={styles.input}
+            placeholder="Enter emotion"
+            placeholderTextColor="#ccc"
+          />
 
-        <Text style={styles.label}>Objects (comma‑separated):</Text>
-        <TextInput
-          value={objects}
-          onChangeText={setObjects}
-          style={styles.input}
-          placeholder="e.g. Key, Book"
-        />
+          <Text style={styles.label}>People (comma‑separated):</Text>
+          <TextInput
+            value={people}
+            onChangeText={setPeople}
+            style={styles.input}
+            placeholder="e.g. Alice, Bob"
+            placeholderTextColor="#ccc"
+          />
 
-        <Text style={styles.label}>Notes:</Text>
-        <TextInput
-          value={notes}
-          onChangeText={setNotes}
-          style={[styles.input, { height: 80 }]}
-          placeholder="Any additional notes..."
-          multiline
-        />
+          <Text style={styles.label}>Objects (comma‑separated):</Text>
+          <TextInput
+            value={objects}
+            onChangeText={setObjects}
+            style={styles.input}
+            placeholder="e.g. Key, Book"
+            placeholderTextColor="#ccc"
+          />
 
-        <View style={styles.button}>
-          <Button title="Save Story" onPress={handleSave} />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+          <Text style={styles.label}>Notes:</Text>
+          <TextInput
+            value={notes}
+            onChangeText={setNotes}
+            style={[styles.input, { height: 80 }]}
+            placeholder="Any additional notes..."
+            multiline
+            placeholderTextColor="#ccc"
+          />
+
+          <View style={styles.button}>
+            <Button title="Save Story" onPress={handleSave} />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
-
-const styles = StyleSheet.create({
-  flex: { flex: 1, backgroundColor: "#045E95" }, // full screen
-  container: { padding: 16 },
-  label: {
-    marginBottom: 4,
-    fontWeight: "bold",
-    color: "white",
-  }, // field label style
-  input: {
-    borderWidth: 1, // visible border
-    borderColor: "#ccc", // light gray
-    padding: 12, // inner spacing
-    marginBottom: 12, // space between inputs
-    borderRadius: 6, // rounded corners
-    color: "#fff",
-  },
-  button: { marginTop: 8 }, // space above the save button
-});

@@ -1,15 +1,10 @@
-// src/screens/EditDreamScreen.js
-
 import React, { useState, useEffect } from "react";
-import {
-  SafeAreaView, // handles device notches/status bars
-  TextInput, // for text inputs
-  Button, // for the save action
-  StyleSheet, // styling helper
-  Alert, // to show popup messages
-  View, // generic container
-} from "react-native";
+import { SafeAreaView, TextInput, Button, Alert, View } from "react-native";
 import api, { updateDream } from "../api"; // API helper for PUT /dreams/:id
+import { editDreamStyles as styles } from "./ScreenStyles"; // Import styles
+import bgpic from "../../assets/bgpic.png"; // Import the background image
+
+import { ImageBackground, Text } from "react-native";
 
 export default function EditDreamScreen({ route, navigation }) {
   const { dream } = route.params; // the dream object passed from DreamsScreen
@@ -69,82 +64,85 @@ export default function EditDreamScreen({ route, navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Title input */}
-      <TextInput
-        placeholder="Title"
-        value={title}
-        onChangeText={setTitle}
-        style={styles.input}
-      />
-      {/* Climax input */}
-      <TextInput
-        placeholder="Climax"
-        value={climax}
-        onChangeText={setClimax}
-        style={styles.input}
-      />
-      {/* Location input */}
-      <TextInput
-        placeholder="Location"
-        value={location}
-        onChangeText={setLocation}
-        style={styles.input}
-      />
-      {/* Time input */}
-      <TextInput
-        placeholder="Time"
-        value={time}
-        onChangeText={setTime}
-        style={styles.input}
-      />
-      {/* Emotion input */}
-      <TextInput
-        placeholder="Emotion"
-        value={emotion}
-        onChangeText={setEmotion}
-        style={styles.input}
-      />
-      {/* People input (comma‑separated) */}
-      <TextInput
-        placeholder="People (comma‑separated)"
-        value={people}
-        onChangeText={setPeople}
-        style={styles.input}
-      />
-      {/* Objects input (comma‑separated) */}
-      <TextInput
-        placeholder="Objects (comma‑separated)"
-        value={objects}
-        onChangeText={setObjects}
-        style={styles.input}
-      />
-      {/* Notes input */}
-      <TextInput
-        placeholder="Notes"
-        value={notes}
-        onChangeText={setNotes}
-        style={[styles.input, { height: 80 }]}
-        multiline
-      />
-      {/* Save Changes button */}
-      <View style={styles.buttonWrapper}>
-        <Button title="Save Changes" onPress={handleSave} />
-      </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ImageBackground
+        source={bgpic}
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      >
+        <View style={styles.containerOverlay}>
+          <Text style={styles.header}>Edit Dream</Text>
+
+          <TextInput
+            placeholder="Title"
+            value={title}
+            onChangeText={setTitle}
+            style={styles.input}
+            placeholderTextColor="#ccc"
+          />
+
+          <TextInput
+            placeholder="Climax"
+            value={climax}
+            onChangeText={setClimax}
+            style={styles.input}
+            placeholderTextColor="#ccc"
+          />
+
+          <TextInput
+            placeholder="Location"
+            value={location}
+            onChangeText={setLocation}
+            style={styles.input}
+            placeholderTextColor="#ccc"
+          />
+
+          <TextInput
+            placeholder="Time"
+            value={time}
+            onChangeText={setTime}
+            style={styles.input}
+            placeholderTextColor="#ccc"
+          />
+
+          <TextInput
+            placeholder="Emotion"
+            value={emotion}
+            onChangeText={setEmotion}
+            style={styles.input}
+            placeholderTextColor="#ccc"
+          />
+
+          <TextInput
+            placeholder="People (comma‑separated)"
+            value={people}
+            onChangeText={setPeople}
+            style={styles.input}
+            placeholderTextColor="#ccc"
+          />
+
+          <TextInput
+            placeholder="Objects (comma‑separated)"
+            value={objects}
+            onChangeText={setObjects}
+            style={styles.input}
+            placeholderTextColor="#ccc"
+          />
+
+          <TextInput
+            placeholder="Notes"
+            value={notes}
+            onChangeText={setNotes}
+            style={[styles.input, { height: 80 }]}
+            multiline
+            placeholderTextColor="#ccc"
+          />
+
+          <View style={styles.buttonWrapper}>
+            <Button title="Save Changes" onPress={handleSave} />
+          </View>
+        </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: "#045E95" },
-  input: {
-    borderWidth: 1, // show border
-    borderColor: "#ccc", // light gray
-    padding: 12, // inner spacing
-    marginBottom: 12, // space between inputs
-    borderRadius: 6, // rounded corners
-    color: "#fff", // ← text color inside input
-    placeholderTextColor: "#fff", // ← you can't do this here, must pass via prop
-  },
-  buttonWrapper: { marginTop: 8 }, // space above button
-});

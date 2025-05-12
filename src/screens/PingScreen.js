@@ -1,6 +1,8 @@
 import React from "react";
-import { View, Button, Alert, StyleSheet } from "react-native";
+import { View, Button, Alert, ImageBackground } from "react-native";
 import api from "../api"; // make sure this is the axios instance
+import { pingScreenStyles as styles } from "./ScreenStyles"; // Import styles
+import bgpic from "../../assets/bgpic.png"; // Import the background image
 
 export default function PingScreen() {
   const testPing = async () => {
@@ -15,16 +17,10 @@ export default function PingScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Button title="Test Ping API" onPress={testPing} />
-    </View>
+    <ImageBackground source={bgpic} style={styles.backgroundImage}>
+      <View style={styles.containerOverlay}>
+        <Button title="Test Ping API" onPress={testPing} />
+      </View>
+    </ImageBackground>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

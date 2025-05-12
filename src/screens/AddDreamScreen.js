@@ -1,35 +1,33 @@
-// src/screens/AddDreamScreen.js
-
 import React, { useState } from "react";
 import {
-  SafeAreaView, // ensures content isn't hidden by notches/status bars
-  TextInput, // for user input fields
-  Button, // submit button
-  StyleSheet, // styling utility
-  Alert, // for popup messages
-  View, // generic container
+  SafeAreaView,
+  TextInput,
+  Button,
+  Alert,
+  View,
+  Text,
+  ImageBackground,
+  ScrollView,
 } from "react-native";
 import api from "../api"; // our API helper for HTTP requests
+import { addDreamStyles as styles } from "./ScreenStyles"; // Import styles
+import bgpic from "../../assets/bgpic.png"; // Import the background image
 
 export default function AddDreamScreen({ navigation }) {
-  // form state hooks for each input field
   const [title, setTitle] = useState("");
   const [climax, setClimax] = useState("");
   const [location, setLocation] = useState("");
   const [time, setTime] = useState("");
   const [emotion, setEmotion] = useState("");
-  const [people, setPeople] = useState(""); // comma‑separated list
-  const [objects, setObjects] = useState(""); // comma‑separated list
+  const [people, setPeople] = useState("");
+  const [objects, setObjects] = useState("");
   const [notes, setNotes] = useState("");
 
-  // Called when the user taps "Save Dream"
   const handleSave = async () => {
-    // basic validation: title is required
     if (!title.trim()) {
       return Alert.alert("Validation Error", "Title is required");
     }
     try {
-      // send POST request with all form data
       await api.post("/dreams", {
         title,
         climax,
@@ -46,98 +44,103 @@ export default function AddDreamScreen({ navigation }) {
           .filter(Boolean),
         notes,
       });
-      // show success message
       Alert.alert("Success", "Dream saved!");
-      // navigate back to the list of dreams
       navigation.navigate("Dreams");
     } catch (err) {
-      // display any API errors
       Alert.alert("Error", err.message);
     }
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Title input */}
-      <TextInput
-        placeholder="Title"
-        value={title}
-        onChangeText={setTitle}
-        style={styles.input}
-      />
-      {/* Climax input (main moment of the dream) */}
-      <TextInput
-        placeholder="Climax"
-        value={climax}
-        onChangeText={setClimax}
-        style={styles.input}
-      />
-      {/* Location input */}
-      <TextInput
-        placeholder="Location"
-        value={location}
-        onChangeText={setLocation}
-        style={styles.input}
-      />
-      {/* Time input */}
-      <TextInput
-        placeholder="Time"
-        value={time}
-        onChangeText={setTime}
-        style={styles.input}
-      />
-      {/* Emotion input */}
-      <TextInput
-        placeholder="Emotion"
-        value={emotion}
-        onChangeText={setEmotion}
-        style={styles.input}
-      />
-      {/* People involved (comma-separated) */}
-      <TextInput
-        placeholder="People (comma‑separated)"
-        value={people}
-        onChangeText={setPeople}
-        style={styles.input}
-      />
-      {/* Objects present (comma-separated) */}
-      <TextInput
-        placeholder="Objects (comma‑separated)"
-        value={objects}
-        onChangeText={setObjects}
-        style={styles.input}
-      />
-      {/* Additional notes */}
-      <TextInput
-        placeholder="Notes"
-        value={notes}
-        onChangeText={setNotes}
-        style={[styles.input, { height: 80 }]}
-        multiline
-      />
-      {/* Save button */}
-      <View style={styles.buttonWrapper}>
-        <Button title="Save Dream" onPress={handleSave} />
-      </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ImageBackground
+        source={bgpic}
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      >
+        <View style={styles.containerOverlay}>
+          <ScrollView contentContainerStyle={styles.scrollContainer}>
+            <Text style={styles.header}>Add A New Dream</Text>
+
+            <Text style={styles.label}>Title:</Text>
+            <TextInput
+              placeholder="Enter dream title"
+              value={title}
+              onChangeText={setTitle}
+              style={styles.input}
+              placeholderTextColor="#ccc"
+            />
+
+            <Text style={styles.label}>Climax:</Text>
+            <TextInput
+              placeholder="Enter dream climax"
+              value={climax}
+              onChangeText={setClimax}
+              style={styles.input}
+              placeholderTextColor="#ccc"
+            />
+
+            <Text style={styles.label}>Location:</Text>
+            <TextInput
+              placeholder="Enter dream location"
+              value={location}
+              onChangeText={setLocation}
+              style={styles.input}
+              placeholderTextColor="#ccc"
+            />
+
+            <Text style={styles.label}>Time:</Text>
+            <TextInput
+              placeholder="Enter dream time"
+              value={time}
+              onChangeText={setTime}
+              style={styles.input}
+              placeholderTextColor="#ccc"
+            />
+
+            <Text style={styles.label}>Emotion:</Text>
+            <TextInput
+              placeholder="Enter dream emotion"
+              value={emotion}
+              onChangeText={setEmotion}
+              style={styles.input}
+              placeholderTextColor="#ccc"
+            />
+
+            <Text style={styles.label}>People (comma-separated):</Text>
+            <TextInput
+              placeholder="e.g. Alice, Bob"
+              value={people}
+              onChangeText={setPeople}
+              style={styles.input}
+              placeholderTextColor="#ccc"
+            />
+
+            <Text style={styles.label}>Objects (comma-separated):</Text>
+            <TextInput
+              placeholder="e.g. Key, Book"
+              value={objects}
+              onChangeText={setObjects}
+              style={styles.input}
+              placeholderTextColor="#ccc"
+            />
+
+            <Text style={styles.label}>Notes:</Text>
+            <TextInput
+              placeholder="Any additional notes..."
+              value={notes}
+              onChangeText={setNotes}
+              style={[styles.input, { height: 80 }]}
+              multiline
+              placeholderTextColor="#ccc"
+            />
+
+            <View style={styles.buttonWrapper}>
+              <Button title="Save Dream" onPress={handleSave} />
+            </View>
+          </ScrollView>
+        </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1, // fill the entire screen
-    padding: 16, // inner spacing
-    backgroundColor: "#045E95",
-  },
-  input: {
-    borderWidth: 1, // visible border
-    borderColor: "#ccc", // light gray color
-    padding: 12, // input padding
-    marginBottom: 12, // spacing between fields
-    borderRadius: 6, // rounded corners
-    color: "#fff",
-  },
-  buttonWrapper: {
-    marginTop: 8, // space above the button
-  },
-});
